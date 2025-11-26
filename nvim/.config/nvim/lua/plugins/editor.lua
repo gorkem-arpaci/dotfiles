@@ -1,12 +1,14 @@
 return {
-  -- Hihglight colors
+  -- Highlight colors (Renk vurgulamaları)
   {
     "echasnovski/mini.hipatterns",
     event = "BufReadPre",
     opts = {},
   },
+
+  -- Telescope (Arama motoru)
   {
-    "telescope.nvim",
+    "nvim-telescope/telescope.nvim",
     priority = 1000,
     dependencies = {
       {
@@ -33,7 +35,7 @@ return {
           local builtin = require("telescope.builtin")
           builtin.live_grep()
         end,
-        desc = "Search for a string in your current working directory and get results live as you type, respects .gitignore",
+        desc = "Search for a string in your current working directory",
       },
       {
         "\\\\",
@@ -57,7 +59,7 @@ return {
           local builtin = require("telescope.builtin")
           builtin.diagnostics()
         end,
-        desc = "Lists Diagnostics for all open buffers or a specific buffer",
+        desc = "Lists Diagnostics",
       },
       {
         ";s",
@@ -70,7 +72,12 @@ return {
       {
         "sf",
         function()
-          local telescope = require("telescope")
+          -- Telescope yüklenmemişse korumalı çağrı yap
+          local status, telescope = pcall(require, "telescope")
+          if not status then
+            vim.notify("Telescope not found yet", vim.log.levels.WARN)
+            return
+          end
 
           local function telescope_buffer_dir()
             return vim.fn.expand("%:p:h")
@@ -90,11 +97,27 @@ return {
         desc = "Open File Browser with the path of the current buffer",
       },
     },
+    -- Config fonksiyonunu "opts" ile birleştirip güvenli hale getirdik
     config = function(_, opts)
-      local telescope = require("telescope")
-      local actions = require("telescope.actions")
-      local fb_actions = require("telescope").extensions.file_browser.actions
+      -- 1. Güvenlik Kontrolü: Telescope var mı? Yoksa çökme, sessizce çık.
+      local status, telescope = pcall(require, "telescope")
+      if not status then
+        return
+      end
 
+      local actions = require("telescope.actions")
+
+      -- Extension action'larını güvenli al
+      local fb_actions
+      pcall(function()
+        fb_actions = telescope.extensions.file_browser.actions
+      end)
+
+      -- 2. Opts boş gelirse diye koruma
+      opts = opts or {}
+      opts.defaults = opts.defaults or {}
+
+      -- Ayarları birleştir (Merge)
       opts.defaults = vim.tbl_deep_extend("force", opts.defaults, {
         wrap_results = true,
         layout_strategy = "horizontal",
@@ -105,6 +128,7 @@ return {
           n = {},
         },
       })
+
       opts.pickers = {
         diagnostics = {
           theme = "ivy",
@@ -114,34 +138,36 @@ return {
           },
         },
       }
-      opts.extensions = {
-        file_browser = {
-          theme = "dropdown",
-          -- disables netrw and use telescope-file-browser in its place
-          hijack_netrw = true,
-          mappings = {
-            -- your custom insert mode mappings
-            ["n"] = {
-              -- your custom normal mode mappings
-              ["N"] = fb_actions.create,
-              ["h"] = fb_actions.goto_parent_dir,
-              ["<C-u>"] = function(prompt_bufnr)
-                for i = 1, 10 do
-                  actions.move_selection_previous(prompt_bufnr)
-                end
-              end,
-              ["<C-d>"] = function(prompt_bufnr)
-                for i = 1, 10 do
-                  actions.move_selection_next(prompt_bufnr)
-                end
-              end,
-            },
+
+      -- File Browser ayarları
+      opts.extensions = opts.extensions or {}
+      opts.extensions.file_browser = {
+        theme = "dropdown",
+        hijack_netrw = true,
+        mappings = {
+          ["n"] = {
+            ["N"] = fb_actions and fb_actions.create,
+            ["h"] = fb_actions and fb_actions.goto_parent_dir,
+            ["<C-u>"] = function(prompt_bufnr)
+              for i = 1, 10 do
+                actions.move_selection_previous(prompt_bufnr)
+              end
+            end,
+            ["<C-d>"] = function(prompt_bufnr)
+              for i = 1, 10 do
+                actions.move_selection_next(prompt_bufnr)
+              end
+            end,
           },
         },
       }
+
+      -- 3. Setup ve Load işlemleri
       telescope.setup(opts)
-      require("telescope").load_extension("fzf")
-      require("telescope").load_extension("file_browser")
+
+      -- Hata vermesin diye pcall içine alıyoruz
+      pcall(telescope.load_extension, "fzf")
+      pcall(telescope.load_extension, "file_browser")
     end,
   },
 }

@@ -159,3 +159,4 @@ export LC_ALL=en_US.UTF-8
 . "$HOME/.local/bin/env"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(/opt/homebrew/bin/brew shellenv)"
+export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
