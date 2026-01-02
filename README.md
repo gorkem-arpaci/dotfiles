@@ -25,13 +25,13 @@ This repository contains configuration files (dotfiles) designed to quickly set 
 
 Tools configured in this repository:
 
-* **Zsh** (default macOS shell)
-* **Oh My Zsh** + Powerlevel10k
-* **WezTerm** (terminal emulator)
-* **Neovim** (code editor)
-* **Tmux** (terminal multiplexer)
-* **Lazygit** (Git interface)
-* **GNU Stow** (symlink manager)
+- **Zsh** (default macOS shell)
+- **Oh My Zsh** + Powerlevel10k
+- **WezTerm, Ghostty, iTerm2, etc...** (terminal emulator)
+- **Neovim** (code editor)
+- **Tmux** (terminal multiplexer)
+- **Lazygit** (Git interface)
+- **GNU Stow** (symlink manager)
 
 ---
 
@@ -39,9 +39,9 @@ Tools configured in this repository:
 
 Before starting, ensure the following:
 
-* macOS 12 or later
-* Apple Silicon (M1/M2/M3...)
-* Xcode Command Line Tools installed:
+- macOS 12 or later
+- Apple Silicon (M1/M2/M3...)
+- Xcode Command Line Tools installed:
 
 ```sh
 xcode-select --install
@@ -75,7 +75,6 @@ brew install \
     neovim \
     tmux \
     lazygit \
-    wezterm
 ```
 
 Install Oh My Zsh:
@@ -104,8 +103,6 @@ Typical layout:
  │    └── .config/nvim/**
  ├── tmux/
  │    └── .tmux.conf
- ├── wezterm/
- │    └── .wezterm.lua
  └── lazygit/
       └── .config/lazygit/**
 ```
@@ -132,10 +129,10 @@ zsh/.zshrc → ~/.zshrc
 
 ### Benefits of Stow
 
-* Clean separation of configs
-* Easy to version-control
-* Fast machine setup
-* Simple installation and removal
+- Clean separation of configs
+- Easy to version-control
+- Fast machine setup
+- Simple installation and removal
 
 ---
 
@@ -155,7 +152,6 @@ cd dotfiles
 stow zsh
 stow nvim
 stow tmux
-stow wezterm
 stow lazygit
 ```
 
@@ -199,10 +195,10 @@ Location:
 
 Includes:
 
-* Plugin manager
-* LSP configuration
-* Key mappings
-* Themes
+- Plugin manager
+- LSP configuration
+- Key mappings
+- Themes
 
 Launch:
 
@@ -225,18 +221,6 @@ Start tmux:
 ```sh
 tmux
 ```
-
----
-
-## 🔹 WezTerm
-
-Config file:
-
-```
-~/.wezterm.lua
-```
-
-WezTerm loads configuration automatically on startup.
 
 ---
 
@@ -341,6 +325,6 @@ You now have a clean, modular, and reproducible development environment powered 
 
 If you'd like, I can also create:
 
-* an automatic `install.sh` setup script
-* a Brewfile for automated package installation
-* a bootstrap script for new machines
+- an automatic `install.sh` setup script
+- a Brewfile for automated package installation
+- a bootstrap script for new machines

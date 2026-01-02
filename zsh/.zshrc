@@ -160,3 +160,6 @@ export LC_ALL=en_US.UTF-8
 eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/gorkemarpaci/.antigravity/antigravity/bin:$PATH"
