@@ -3,9 +3,6 @@ local opts = { noremap = true, silent = true }
 
 keymap.set("n", "x", '"_x')
 
--- Claude code keymap (ileride claude code eklentisi kurulunca aktif edilecek)
-------------------keymap.set("n", "<leader>cc", "<cmd>ClaudeCode<CR>", { desc = "Toggle Calude Code" })
-
 -- jk combination turns on normal mode
 keymap.set("i", "jk", "<ESC>", opts)
 

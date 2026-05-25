@@ -180,7 +180,7 @@ return {
         },
         view = {
           width = 30,
-          relativenumber = true,
+          relativenumber = false,
         },
         renderer = {
           group_empty = true,
@@ -202,10 +202,6 @@ return {
           },
         },
       })
-
-      if vim.fn.argc(-1) == 0 then
-        vim.cmd("NvimTreeFocus")
-      end
     end,
   },
 }

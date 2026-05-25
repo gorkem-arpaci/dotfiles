@@ -1,7 +1,7 @@
 return {
   -- Highlight colors (Renk vurgulamaları)
   {
-    "nvim-mini/mini.hipatterns",
+    "echasnovski/mini.hipatterns",
     event = "BufReadPre",
     opts = {},
   },
